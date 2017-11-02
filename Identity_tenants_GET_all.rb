@@ -4,7 +4,9 @@ $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
 require 'VMWConfig'
 
-url = VMW::API::URI('/catalog-service/api/catalogItems')
+VMW::API::tenant = 'vsphere.local'
+
+url = VMW::API::URI('/identity/api/tenants')
 
 begin
   response = VMW::API::sign {
@@ -12,12 +14,12 @@ begin
   }
 
   payload = VMW::Payload.from_json(response)
-  payload.save_json('catalog_items.json')
+  payload.save_json('identity_tenants.json')
 
   # Print a summary
-  payload.doc['content'].each do |item|
-    print "%-30s%-60s%-20s\n" % [ item['name'], item['catalogItemTypeRef']['id'], item['catalogItemTypeRef']['label']]
-  end
+  #payload.doc['content'].each do |item|
+  #  print "%-30s%-60s%-20s\n" % [ item['name'], item['catalogItemTypeRef']['id'], item['catalogItemTypeRef']['label']]
+  #end
 
 rescue RestClient::Exception => e
   print "Got exception with status: %d\n" % e.response.code

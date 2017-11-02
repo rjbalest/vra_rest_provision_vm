@@ -1,4 +1,8 @@
-require './VMWConfig'
+# Add the local directory to the library path
+libdir = File.dirname(__FILE__)
+$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
+
+require 'VMWConfig'
 
 url = VMW::API::URI('/catalog-service/api/consumer/entitledCatalogItemViews')
 
